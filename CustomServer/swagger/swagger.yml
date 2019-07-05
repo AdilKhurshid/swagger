@@ -1,0 +1,39 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Greeting Server
+paths:
+  /hello:
+    get:
+      produces:
+        - text/plain
+      parameters:
+        - name: name
+          required: false
+          type: string
+          in: query
+          description: defaults to World if not given
+        - name: Department
+          required: false
+          type: string
+          in: query
+          description: defaults to CS if not given
+        - name: age
+          type: integer
+          format:  int32
+          in: query
+          required: false
+          description: Should be greater than 20
+        - name: enrollment
+          type: integer
+          format: int64
+          in: query
+          required: false
+          description: Should be greater than
+      operationId: getGreeting
+      responses:
+        200:
+          description: returns a greeting
+          schema:
+            type: string
+            description: contains the actual greeting as plain text
