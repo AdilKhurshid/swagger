@@ -36,7 +36,7 @@ func main() {
 			name := swag.StringValue(params.Name)
 			Department := swag.StringValue(params.Department)
 			age :=  swag.Int32Value(params.Age)
-			EnrollmentNo := swag.Int64Value(params.Enrollment)
+			EnrollmentNo := int64(swag.Int64Value(params.Enrollment))
 			if name == "" {
 				name = "Nil"
 			}
@@ -46,18 +46,82 @@ func main() {
 			}
 
 			if age < 20 {
-				greeting := fmt.Sprintf("Age is less than, %s!", age)
+				greeting := fmt.Sprintf("Age is less than, %d!", age)
 				return operations.NewGetGreetingOK().WithPayload(greeting)
 			} else {
-				greeting := fmt.Sprintf("Hello, %s!", name)
+				greeting := fmt.Sprintf("This is Get Call" )
+				greeting += fmt.Sprintf("\nName, %s!", name)
 				greeting += fmt.Sprintf("\nDepartment, %s!", Department)
-				greeting += fmt.Sprintf("\nAge, %s!", age)
-				greeting += fmt.Sprintf("\nEnrollment No , %s!", EnrollmentNo)
+				greeting += fmt.Sprintf("\nAge, %d!", age)
+				greeting += fmt.Sprintf("\nEnrollment No , %d!", EnrollmentNo)
 				return operations.NewGetGreetingOK().WithPayload(greeting)
 			}
 
 		})
 
+	api.PostGreetingHandler = operations.PostGreetingHandlerFunc(
+		func(params operations.PostGreetingParams) middleware.Responder {
+			name := swag.StringValue(params.Name)
+			Department := swag.StringValue(params.Department)
+			age :=  swag.Int32Value(params.Age)
+			EnrollmentNo := int64(swag.Int64Value(params.Enrollment))
+			if name == "" {
+				name = "Nil"
+			}
+
+			if  Department == ""{
+				Department = "CS"
+			}
+
+			if age < 20 {
+				greeting := fmt.Sprintf("Age is less than, %d!", age)
+				return operations.NewPostGreetingOK().WithPayload(greeting)
+			} else {
+				greeting := fmt.Sprintf("This is Post Call" )
+				greeting += fmt.Sprintf("\nName, %s!", name)
+				greeting += fmt.Sprintf("\nDepartment, %s!", Department)
+				greeting += fmt.Sprintf("\nAge, %d!", age)
+				greeting += fmt.Sprintf("\nEnrollment No , %d!", EnrollmentNo)
+				return operations.NewPostGreetingOK().WithPayload(greeting)
+			}
+
+		})
+
+	api.PutGreetingHandler = operations.PutGreetingHandlerFunc(
+		func(params operations.PutGreetingParams) middleware.Responder {
+			name := swag.StringValue(params.Name)
+			Department := swag.StringValue(params.Department)
+			age :=  swag.Int32Value(params.Age)
+			EnrollmentNo := int64(swag.Int64Value(params.Enrollment))
+			if name == "" {
+				name = "Nil"
+			}
+
+			if  Department == ""{
+				Department = "CS"
+			}
+
+			if age < 20 {
+				greeting := fmt.Sprintf("Age is less than, %d!", age)
+				return operations.NewPutGreetingOK().WithPayload(greeting)
+			} else {
+				greeting := fmt.Sprintf("This is Put Call" )
+				greeting += fmt.Sprintf("\nName, %s!", name)
+				greeting += fmt.Sprintf("\nDepartment, %s!", Department)
+				greeting += fmt.Sprintf("\nAge, %d!", age)
+				greeting += fmt.Sprintf("\nEnrollment No , %d!", EnrollmentNo)
+				return operations.NewPutGreetingOK().WithPayload(greeting)
+			}
+
+		})
+
+	api.DeleteGreetingHandler= operations.DeleteGreetingHandlerFunc(
+		func(params operations.DeleteGreetingParams)middleware.Responder{
+			id := swag.StringValue(params.ID)
+			greeting := fmt.Sprintf("This is Delete Call " )
+			greeting += fmt.Sprintf("ID to delete, %s ",id)
+			return operations.NewDeleteGreetingOK().WithPayload(greeting)
+		})
 	// serve API
 	if err := server.Serve(); err != nil {
 		log.Fatalln(err)

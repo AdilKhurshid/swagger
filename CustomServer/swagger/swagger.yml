@@ -37,3 +37,87 @@ paths:
           schema:
             type: string
             description: contains the actual greeting as plain text
+    post:
+      produces:
+        - text/plain
+      parameters:
+        - name: name
+          required: false
+          type: string
+          in: query
+          description: defaults to World if not given
+        - name: Department
+          required: false
+          type: string
+          in: query
+          description: defaults to CS if not given
+        - name: age
+          type: integer
+          format:  int32
+          in: query
+          required: false
+          description: Should be greater than 20
+        - name: enrollment
+          type: integer
+          format: int64
+          in: query
+          required: false
+          description: Should be greater than
+      operationId: PostGreeting
+      responses:
+        200:
+          description: returns a greeting
+          schema:
+            type: string
+            description: contains the actual greeting as plain text
+
+    put:
+      produces:
+        - text/plain
+      parameters:
+        - name: name
+          required: false
+          type: string
+          in: query
+          description: defaults to World if not given
+        - name: Department
+          required: false
+          type: string
+          in: query
+          description: defaults to CS if not given
+        - name: age
+          type: integer
+          format:  int32
+          in: query
+          required: false
+          description: Should be greater than 20
+        - name: enrollment
+          type: integer
+          format: int64
+          in: query
+          required: false
+          description: Should be greater than
+      operationId: PutGreeting
+      responses:
+        200:
+          description: returns a greeting
+          schema:
+            type: string
+            description: contains the actual greeting as plain text
+
+    delete:
+      produces:
+        - text/plain
+      parameters:
+        - name: Id
+          required: false
+          type: string
+          in: query
+          description: Add Id
+      operationId: DeleteGreeting
+      responses:
+        200:
+          description: returns a greeting
+          schema:
+            type: string
+            description: contains the actual greeting as plain text

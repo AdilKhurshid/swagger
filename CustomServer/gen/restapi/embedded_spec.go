@@ -67,6 +67,115 @@ func init() {
             }
           }
         }
+      },
+      "put": {
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "PutGreeting",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "defaults to World if not given",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "defaults to CS if not given",
+            "name": "Department",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Should be greater than 20",
+            "name": "age",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "Should be greater than",
+            "name": "enrollment",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a greeting",
+            "schema": {
+              "description": "contains the actual greeting as plain text",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "post": {
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "PostGreeting",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "defaults to World if not given",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "defaults to CS if not given",
+            "name": "Department",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Should be greater than 20",
+            "name": "age",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "Should be greater than",
+            "name": "enrollment",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a greeting",
+            "schema": {
+              "description": "contains the actual greeting as plain text",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "delete": {
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "DeleteGreeting",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Add Id",
+            "name": "Id",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a greeting",
+            "schema": {
+              "description": "contains the actual greeting as plain text",
+              "type": "string"
+            }
+          }
+        }
       }
     }
   }
@@ -109,6 +218,115 @@ func init() {
             "format": "int64",
             "description": "Should be greater than",
             "name": "enrollment",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a greeting",
+            "schema": {
+              "description": "contains the actual greeting as plain text",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "put": {
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "PutGreeting",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "defaults to World if not given",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "defaults to CS if not given",
+            "name": "Department",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Should be greater than 20",
+            "name": "age",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "Should be greater than",
+            "name": "enrollment",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a greeting",
+            "schema": {
+              "description": "contains the actual greeting as plain text",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "post": {
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "PostGreeting",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "defaults to World if not given",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "defaults to CS if not given",
+            "name": "Department",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Should be greater than 20",
+            "name": "age",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "Should be greater than",
+            "name": "enrollment",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a greeting",
+            "schema": {
+              "description": "contains the actual greeting as plain text",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "delete": {
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "DeleteGreeting",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Add Id",
+            "name": "Id",
             "in": "query"
           }
         ],

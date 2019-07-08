@@ -37,6 +37,15 @@ func NewGreeterAPI(spec *loads.Document) *GreeterAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		TxtProducer:         runtime.TextProducer(),
+		DeleteGreetingHandler: DeleteGreetingHandlerFunc(func(params DeleteGreetingParams) middleware.Responder {
+			return middleware.NotImplemented("operation DeleteGreeting has not yet been implemented")
+		}),
+		PostGreetingHandler: PostGreetingHandlerFunc(func(params PostGreetingParams) middleware.Responder {
+			return middleware.NotImplemented("operation PostGreeting has not yet been implemented")
+		}),
+		PutGreetingHandler: PutGreetingHandlerFunc(func(params PutGreetingParams) middleware.Responder {
+			return middleware.NotImplemented("operation PutGreeting has not yet been implemented")
+		}),
 		GetGreetingHandler: GetGreetingHandlerFunc(func(params GetGreetingParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetGreeting has not yet been implemented")
 		}),
@@ -71,6 +80,12 @@ type GreeterAPI struct {
 	// TxtProducer registers a producer for a "text/plain" mime type
 	TxtProducer runtime.Producer
 
+	// DeleteGreetingHandler sets the operation handler for the delete greeting operation
+	DeleteGreetingHandler DeleteGreetingHandler
+	// PostGreetingHandler sets the operation handler for the post greeting operation
+	PostGreetingHandler PostGreetingHandler
+	// PutGreetingHandler sets the operation handler for the put greeting operation
+	PutGreetingHandler PutGreetingHandler
 	// GetGreetingHandler sets the operation handler for the get greeting operation
 	GetGreetingHandler GetGreetingHandler
 
@@ -134,6 +149,18 @@ func (o *GreeterAPI) Validate() error {
 
 	if o.TxtProducer == nil {
 		unregistered = append(unregistered, "TxtProducer")
+	}
+
+	if o.DeleteGreetingHandler == nil {
+		unregistered = append(unregistered, "DeleteGreetingHandler")
+	}
+
+	if o.PostGreetingHandler == nil {
+		unregistered = append(unregistered, "PostGreetingHandler")
+	}
+
+	if o.PutGreetingHandler == nil {
+		unregistered = append(unregistered, "PutGreetingHandler")
 	}
 
 	if o.GetGreetingHandler == nil {
@@ -237,6 +264,21 @@ func (o *GreeterAPI) initHandlerCache() {
 	if o.handlers == nil {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/hello"] = NewDeleteGreeting(o.context, o.DeleteGreetingHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/hello"] = NewPostGreeting(o.context, o.PostGreetingHandler)
+
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/hello"] = NewPutGreeting(o.context, o.PutGreetingHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
