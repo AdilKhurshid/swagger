@@ -1,9 +1,9 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: Greeting Server
+  title: Student Server
 paths:
-  /hello:
+  /student:
     get:
       produces:
         - text/plain
@@ -12,7 +12,7 @@ paths:
           required: false
           type: string
           in: query
-          description: defaults to World if not given
+          description: defaults to Adil if not given
         - name: Department
           required: false
           type: string
@@ -29,14 +29,14 @@ paths:
           format: int64
           in: query
           required: false
-          description: Should be greater than
-      operationId: getGreeting
+          description: It is int64
+      operationId: GetStudent
       responses:
         200:
-          description: returns a greeting
+          description: returns a Student Information
           schema:
             type: string
-            description: contains the actual greeting as plain text
+            description: contains a Student Informations
     post:
       produces:
         - text/plain
@@ -45,7 +45,7 @@ paths:
           required: false
           type: string
           in: query
-          description: defaults to World if not given
+          description: defaults to Adil if not given
         - name: Department
           required: false
           type: string
@@ -62,14 +62,14 @@ paths:
           format: int64
           in: query
           required: false
-          description: Should be greater than
-      operationId: PostGreeting
+          description: It is int64
+      operationId: PostStudent
       responses:
         200:
-          description: returns a greeting
+          description: returns a Student Informations
           schema:
             type: string
-            description: contains the actual greeting as plain text
+            description: contains a Student Informations
 
     put:
       produces:
@@ -79,7 +79,7 @@ paths:
           required: false
           type: string
           in: query
-          description: defaults to World if not given
+          description: defaults to Adil if not given
         - name: Department
           required: false
           type: string
@@ -96,14 +96,14 @@ paths:
           format: int64
           in: query
           required: false
-          description: Should be greater than
-      operationId: PutGreeting
+          description: It is int64
+      operationId: PutStudent
       responses:
         200:
-          description: returns a greeting
+          description: returns a Student Informations
           schema:
             type: string
-            description: contains the actual greeting as plain text
+            description: contains a Student Informations
 
     delete:
       produces:
@@ -114,10 +114,10 @@ paths:
           type: string
           in: query
           description: Add Id
-      operationId: DeleteGreeting
+      operationId: DeleteStudent
       responses:
         200:
-          description: returns a greeting
+          description: returns a Student Informations
           schema:
             type: string
-            description: contains the actual greeting as plain text
+            description: contains a Student Informations

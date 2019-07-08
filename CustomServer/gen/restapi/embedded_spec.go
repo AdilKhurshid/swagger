@@ -20,20 +20,20 @@ func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
   "swagger": "2.0",
   "info": {
-    "title": "Greeting Server",
+    "title": "Student Server",
     "version": "1.0.0"
   },
   "paths": {
-    "/hello": {
+    "/student": {
       "get": {
         "produces": [
           "text/plain"
         ],
-        "operationId": "getGreeting",
+        "operationId": "GetStudent",
         "parameters": [
           {
             "type": "string",
-            "description": "defaults to World if not given",
+            "description": "defaults to Adil if not given",
             "name": "name",
             "in": "query"
           },
@@ -53,16 +53,16 @@ func init() {
           {
             "type": "integer",
             "format": "int64",
-            "description": "Should be greater than",
+            "description": "It is int64",
             "name": "enrollment",
             "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Information",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
@@ -72,11 +72,11 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "PutGreeting",
+        "operationId": "PutStudent",
         "parameters": [
           {
             "type": "string",
-            "description": "defaults to World if not given",
+            "description": "defaults to Adil if not given",
             "name": "name",
             "in": "query"
           },
@@ -96,16 +96,16 @@ func init() {
           {
             "type": "integer",
             "format": "int64",
-            "description": "Should be greater than",
+            "description": "It is int64",
             "name": "enrollment",
             "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
@@ -115,11 +115,11 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "PostGreeting",
+        "operationId": "PostStudent",
         "parameters": [
           {
             "type": "string",
-            "description": "defaults to World if not given",
+            "description": "defaults to Adil if not given",
             "name": "name",
             "in": "query"
           },
@@ -139,16 +139,16 @@ func init() {
           {
             "type": "integer",
             "format": "int64",
-            "description": "Should be greater than",
+            "description": "It is int64",
             "name": "enrollment",
             "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
@@ -158,7 +158,7 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "DeleteGreeting",
+        "operationId": "DeleteStudent",
         "parameters": [
           {
             "type": "string",
@@ -169,9 +169,9 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
@@ -183,20 +183,20 @@ func init() {
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
   "swagger": "2.0",
   "info": {
-    "title": "Greeting Server",
+    "title": "Student Server",
     "version": "1.0.0"
   },
   "paths": {
-    "/hello": {
+    "/student": {
       "get": {
         "produces": [
           "text/plain"
         ],
-        "operationId": "getGreeting",
+        "operationId": "GetStudent",
         "parameters": [
           {
             "type": "string",
-            "description": "defaults to World if not given",
+            "description": "defaults to Adil if not given",
             "name": "name",
             "in": "query"
           },
@@ -216,16 +216,16 @@ func init() {
           {
             "type": "integer",
             "format": "int64",
-            "description": "Should be greater than",
+            "description": "It is int64",
             "name": "enrollment",
             "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Information",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
@@ -235,11 +235,11 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "PutGreeting",
+        "operationId": "PutStudent",
         "parameters": [
           {
             "type": "string",
-            "description": "defaults to World if not given",
+            "description": "defaults to Adil if not given",
             "name": "name",
             "in": "query"
           },
@@ -259,16 +259,16 @@ func init() {
           {
             "type": "integer",
             "format": "int64",
-            "description": "Should be greater than",
+            "description": "It is int64",
             "name": "enrollment",
             "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
@@ -278,11 +278,11 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "PostGreeting",
+        "operationId": "PostStudent",
         "parameters": [
           {
             "type": "string",
-            "description": "defaults to World if not given",
+            "description": "defaults to Adil if not given",
             "name": "name",
             "in": "query"
           },
@@ -302,16 +302,16 @@ func init() {
           {
             "type": "integer",
             "format": "int64",
-            "description": "Should be greater than",
+            "description": "It is int64",
             "name": "enrollment",
             "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
@@ -321,7 +321,7 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "DeleteGreeting",
+        "operationId": "DeleteStudent",
         "parameters": [
           {
             "type": "string",
@@ -332,9 +332,9 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
