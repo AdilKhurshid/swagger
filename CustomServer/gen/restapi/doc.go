@@ -13,6 +13,7 @@ Package restapi Student Server
     - application/json
 
     Produces:
+    - application/json
     - text/plain
 
 swagger:meta

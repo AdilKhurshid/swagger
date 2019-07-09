@@ -18,6 +18,12 @@ var (
 
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "swagger": "2.0",
   "info": {
     "title": "Student Server",
@@ -29,33 +35,18 @@ func init() {
         "produces": [
           "text/plain"
         ],
+        "tags": [
+          "student"
+        ],
         "operationId": "GetStudent",
         "parameters": [
           {
-            "type": "string",
-            "description": "defaults to Adil if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
             "type": "integer",
             "format": "int64",
-            "description": "It is int64",
-            "name": "enrollment",
-            "in": "query"
+            "description": "ID to get student information",
+            "name": "id",
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
@@ -68,108 +59,23 @@ func init() {
           }
         }
       },
-      "put": {
-        "produces": [
-          "text/plain"
-        ],
-        "operationId": "PutStudent",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "defaults to Adil if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "It is int64",
-            "name": "enrollment",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns a Student Informations",
-            "schema": {
-              "description": "contains a Student Informations",
-              "type": "string"
-            }
-          }
-        }
-      },
       "post": {
-        "produces": [
-          "text/plain"
+        "tags": [
+          "student"
         ],
         "operationId": "PostStudent",
         "parameters": [
           {
-            "type": "string",
-            "description": "defaults to Adil if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "It is int64",
-            "name": "enrollment",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns a Student Informations",
+            "name": "body",
+            "in": "body",
             "schema": {
-              "description": "contains a Student Informations",
-              "type": "string"
+              "$ref": "#/definitions/student"
             }
           }
-        }
-      },
-      "delete": {
-        "produces": [
-          "text/plain"
-        ],
-        "operationId": "DeleteStudent",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Add Id",
-            "name": "Id",
-            "in": "query"
-          }
         ],
         "responses": {
           "200": {
-            "description": "returns a Student Informations",
+            "description": "contains a Student Informations",
             "schema": {
               "description": "contains a Student Informations",
               "type": "string"
@@ -177,134 +83,40 @@ func init() {
           }
         }
       }
-    }
-  }
-}`))
-	FlatSwaggerJSON = json.RawMessage([]byte(`{
-  "swagger": "2.0",
-  "info": {
-    "title": "Student Server",
-    "version": "1.0.0"
-  },
-  "paths": {
-    "/student": {
+    },
+    "/studentlist": {
       "get": {
         "produces": [
           "text/plain"
         ],
-        "operationId": "GetStudent",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "defaults to Adil if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "It is int64",
-            "name": "enrollment",
-            "in": "query"
-          }
+        "tags": [
+          "student"
         ],
+        "operationId": "GetStudentList",
         "responses": {
           "200": {
-            "description": "returns a Student Information",
+            "description": "returns list of Student",
             "schema": {
-              "description": "contains a Student Informations",
+              "description": "contains list of Student",
               "type": "string"
             }
           }
         }
-      },
+      }
+    },
+    "/{id}": {
       "put": {
-        "produces": [
-          "text/plain"
+        "tags": [
+          "student"
         ],
         "operationId": "PutStudent",
         "parameters": [
           {
-            "type": "string",
-            "description": "defaults to Adil if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "It is int64",
-            "name": "enrollment",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns a Student Informations",
+            "name": "body",
+            "in": "body",
             "schema": {
-              "description": "contains a Student Informations",
-              "type": "string"
+              "$ref": "#/definitions/student"
             }
-          }
-        }
-      },
-      "post": {
-        "produces": [
-          "text/plain"
-        ],
-        "operationId": "PostStudent",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "defaults to Adil if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "It is int64",
-            "name": "enrollment",
-            "in": "query"
           }
         ],
         "responses": {
@@ -318,16 +130,166 @@ func init() {
         }
       },
       "delete": {
+        "tags": [
+          "student"
+        ],
+        "operationId": "DeleteStudent",
+        "responses": {
+          "204": {
+            "description": "Delete a Student Informations",
+            "schema": {
+              "description": "Delete a Student Informations",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "integer",
+          "format": "int64",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "student": {
+      "type": "object",
+      "required": [
+        "name",
+        "department",
+        "enrollment",
+        "age"
+      ],
+      "properties": {
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "department": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enrollment": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}`))
+	FlatSwaggerJSON = json.RawMessage([]byte(`{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "Student Server",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/student": {
+      "get": {
         "produces": [
           "text/plain"
         ],
-        "operationId": "DeleteStudent",
+        "tags": [
+          "student"
+        ],
+        "operationId": "GetStudent",
         "parameters": [
           {
-            "type": "string",
-            "description": "Add Id",
-            "name": "Id",
-            "in": "query"
+            "type": "integer",
+            "format": "int64",
+            "description": "ID to get student information",
+            "name": "id",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a Student Information",
+            "schema": {
+              "description": "contains a Student Informations",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "student"
+        ],
+        "operationId": "PostStudent",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/student"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "contains a Student Informations",
+            "schema": {
+              "description": "contains a Student Informations",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/studentlist": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "tags": [
+          "student"
+        ],
+        "operationId": "GetStudentList",
+        "responses": {
+          "200": {
+            "description": "returns list of Student",
+            "schema": {
+              "description": "contains list of Student",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "put": {
+        "tags": [
+          "student"
+        ],
+        "operationId": "PutStudent",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/student"
+            }
           }
         ],
         "responses": {
@@ -338,6 +300,64 @@ func init() {
               "type": "string"
             }
           }
+        }
+      },
+      "delete": {
+        "tags": [
+          "student"
+        ],
+        "operationId": "DeleteStudent",
+        "responses": {
+          "204": {
+            "description": "Delete a Student Informations",
+            "schema": {
+              "description": "Delete a Student Informations",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "integer",
+          "format": "int64",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "student": {
+      "type": "object",
+      "required": [
+        "name",
+        "department",
+        "enrollment",
+        "age"
+      ],
+      "properties": {
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "department": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enrollment": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }
