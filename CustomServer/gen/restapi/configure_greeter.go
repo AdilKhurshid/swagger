@@ -11,6 +11,7 @@ import (
 	middleware "github.com/go-openapi/runtime/middleware"
 
 	"CustomServer/gen/restapi/operations"
+	"CustomServer/gen/restapi/operations/student"
 )
 
 //go:generate swagger generate server --target ../../gen --name Greeter --spec ../../swagger/swagger.yml --exclude-main
@@ -31,11 +32,33 @@ func configureAPI(api *operations.GreeterAPI) http.Handler {
 
 	api.JSONConsumer = runtime.JSONConsumer()
 
+	api.JSONProducer = runtime.JSONProducer()
+
 	api.TxtProducer = runtime.TextProducer()
 
-	if api.GetGreetingHandler == nil {
-		api.GetGreetingHandler = operations.GetGreetingHandlerFunc(func(params operations.GetGreetingParams) middleware.Responder {
-			return middleware.NotImplemented("operation .GetGreeting has not yet been implemented")
+	if api.StudentDeleteStudentHandler == nil {
+		api.StudentDeleteStudentHandler = student.DeleteStudentHandlerFunc(func(params student.DeleteStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation student.DeleteStudent has not yet been implemented")
+		})
+	}
+	if api.StudentGetStudentHandler == nil {
+		api.StudentGetStudentHandler = student.GetStudentHandlerFunc(func(params student.GetStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation student.GetStudent has not yet been implemented")
+		})
+	}
+	if api.StudentGetStudentListHandler == nil {
+		api.StudentGetStudentListHandler = student.GetStudentListHandlerFunc(func(params student.GetStudentListParams) middleware.Responder {
+			return middleware.NotImplemented("operation student.GetStudentList has not yet been implemented")
+		})
+	}
+	if api.StudentPostStudentHandler == nil {
+		api.StudentPostStudentHandler = student.PostStudentHandlerFunc(func(params student.PostStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation student.PostStudent has not yet been implemented")
+		})
+	}
+	if api.StudentPutStudentHandler == nil {
+		api.StudentPutStudentHandler = student.PutStudentHandlerFunc(func(params student.PutStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation student.PutStudent has not yet been implemented")
 		})
 	}
 

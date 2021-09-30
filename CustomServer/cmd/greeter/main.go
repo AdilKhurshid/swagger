@@ -3,6 +3,7 @@ package main
 import (
 	"CustomServer/gen/restapi"
 	"CustomServer/gen/restapi/operations"
+	"CustomServer/gen/restapi/operations/student"
 	"flag"
 	"fmt"
 	"github.com/go-openapi/loads"
@@ -15,6 +16,16 @@ var portFlag = flag.Int("port", 3000, "Port to run this service on")
 
 
 func main() {
+
+	type StudentStruct struct {
+		ID int64
+		Name string
+		Age int32
+		Enrollment int64
+		Department string
+	}
+
+	StudentMap := make(map[int64]StudentStruct)
 	// load embedded swagger file
 	swaggerSpec, err := loads.Analyzed(restapi.SwaggerJSON, "")
 	if err != nil {
@@ -31,96 +42,79 @@ func main() {
 	// set the port this service will be run on
 	server.Port = *portFlag
 
-	api.GetGreetingHandler = operations.GetGreetingHandlerFunc(
-		func(params operations.GetGreetingParams) middleware.Responder {
-			name := swag.StringValue(params.Name)
-			Department := swag.StringValue(params.Department)
-			age :=  swag.Int32Value(params.Age)
-			EnrollmentNo := int64(swag.Int64Value(params.Enrollment))
-			if name == "" {
-				name = "Nil"
-			}
+	api.StudentGetStudentHandler = student.GetStudentHandlerFunc(
+		func(params student.GetStudentParams) middleware.Responder {
+			var StudentObj StudentStruct
+			StudentObj = StudentMap[int64(params.ID)]
+			StudentInfo := fmt.Sprintf("This is Get Call" )
+			StudentInfo += fmt.Sprintf("\nID, %d!", StudentObj.ID)
+			StudentInfo += fmt.Sprintf("\nName, %s!", StudentObj.Name)
+			StudentInfo += fmt.Sprintf("\nDepartment, %s!", StudentObj.Department)
+			StudentInfo += fmt.Sprintf("\nAge, %d!", StudentObj.Age)
+			StudentInfo += fmt.Sprintf("\nEnrollment No , %d!", StudentObj.Enrollment)
+			return student.NewGetStudentOK().WithPayload(StudentInfo)
+		})
 
-			if  Department == ""{
-				Department = "CS"
-			}
+	api.StudentPostStudentHandler = student.PostStudentHandlerFunc(
+		func(params student.PostStudentParams) middleware.Responder {
+			var StudentObj StudentStruct
+			StudentObj.ID = int64(params.Body.ID)
+			StudentObj.Name = swag.StringValue(params.Body.Name)
+			StudentObj.Department = swag.StringValue(params.Body.Department)
+			StudentObj.Age =  swag.Int32Value(params.Body.Age)
+			StudentObj.Enrollment = int64(swag.Int64Value(params.Body.Enrollment))
+			StudentMap[StudentObj.ID]= StudentObj
+			StudentInfo := fmt.Sprintf("This is Post Call" )
+			StudentInfo += fmt.Sprintf("\nID, %d!", StudentObj.ID)
+			StudentInfo += fmt.Sprintf("\nName, %s!", StudentObj.Name)
+			StudentInfo += fmt.Sprintf("\nDepartment, %s!", StudentObj.Department)
+			StudentInfo += fmt.Sprintf("\nAge, %d!", StudentObj.Age)
+			StudentInfo += fmt.Sprintf("\nEnrollment No , %d!", StudentObj.Enrollment)
+			return student.NewPostStudentOK().WithPayload(StudentInfo)
+		})
 
-			if age < 20 {
-				greeting := fmt.Sprintf("Age is less than, %d!", age)
-				return operations.NewGetGreetingOK().WithPayload(greeting)
-			} else {
-				greeting := fmt.Sprintf("This is Get Call" )
-				greeting += fmt.Sprintf("\nName, %s!", name)
-				greeting += fmt.Sprintf("\nDepartment, %s!", Department)
-				greeting += fmt.Sprintf("\nAge, %d!", age)
-				greeting += fmt.Sprintf("\nEnrollment No , %d!", EnrollmentNo)
-				return operations.NewGetGreetingOK().WithPayload(greeting)
-			}
+	api.StudentPutStudentHandler= student.PutStudentHandlerFunc(
+		func(params student.PutStudentParams) middleware.Responder {
+			StudentObj := StudentMap[int64(params.Body.ID)]
+			name := swag.StringValue(params.Body.Name)
+			Department := swag.StringValue(params.Body.Department)
+			age :=  swag.Int32Value(params.Body.Age)
+			EnrollmentNo := int64(swag.Int64Value(params.Body.Enrollment))
+			StudentObj.Name = name
+			StudentObj.Department = Department
+			StudentObj.Age = age
+			StudentObj.Enrollment = EnrollmentNo
+			StudentMap[int64(params.Body.ID)] = StudentObj
+			StudentInfo := fmt.Sprintf("This is Put Call" )
+			StudentInfo += fmt.Sprintf("\nName, %s!", name)
+			StudentInfo += fmt.Sprintf("\nDepartment, %s!", Department)
+			StudentInfo += fmt.Sprintf("\nAge, %d!", age)
+			StudentInfo += fmt.Sprintf("\nEnrollment No , %d!", EnrollmentNo)
+			return student.NewPutStudentOK().WithPayload(StudentInfo)
 
 		})
 
-	api.PostGreetingHandler = operations.PostGreetingHandlerFunc(
-		func(params operations.PostGreetingParams) middleware.Responder {
-			name := swag.StringValue(params.Name)
-			Department := swag.StringValue(params.Department)
-			age :=  swag.Int32Value(params.Age)
-			EnrollmentNo := int64(swag.Int64Value(params.Enrollment))
-			if name == "" {
-				name = "Nil"
-			}
-
-			if  Department == ""{
-				Department = "CS"
-			}
-
-			if age < 20 {
-				greeting := fmt.Sprintf("Age is less than, %d!", age)
-				return operations.NewPostGreetingOK().WithPayload(greeting)
-			} else {
-				greeting := fmt.Sprintf("This is Post Call" )
-				greeting += fmt.Sprintf("\nName, %s!", name)
-				greeting += fmt.Sprintf("\nDepartment, %s!", Department)
-				greeting += fmt.Sprintf("\nAge, %d!", age)
-				greeting += fmt.Sprintf("\nEnrollment No , %d!", EnrollmentNo)
-				return operations.NewPostGreetingOK().WithPayload(greeting)
-			}
-
+	api.StudentDeleteStudentHandler= student.DeleteStudentHandlerFunc(
+		func(params student.DeleteStudentParams)middleware.Responder{
+			ID := int64(params.ID)
+			StudentInfo := fmt.Sprintf("This is Delete Call " )
+			StudentInfo += fmt.Sprintf("ID to delete, %d! ",ID)
+			delete(StudentMap,ID)
+			return student.NewDeleteStudentNoContent().WithPayload(StudentInfo)
 		})
 
-	api.PutGreetingHandler = operations.PutGreetingHandlerFunc(
-		func(params operations.PutGreetingParams) middleware.Responder {
-			name := swag.StringValue(params.Name)
-			Department := swag.StringValue(params.Department)
-			age :=  swag.Int32Value(params.Age)
-			EnrollmentNo := int64(swag.Int64Value(params.Enrollment))
-			if name == "" {
-				name = "Nil"
+	api.StudentGetStudentListHandler = student.GetStudentListHandlerFunc(
+		func(params student.GetStudentListParams) middleware.Responder {
+			StudentInfo := ""
+			for key , StudentObj := range StudentMap{
+				StudentInfo += fmt.Sprintf("\n**This is Get Call**")
+				StudentInfo += fmt.Sprintf("\nID, %d!", key)
+				StudentInfo += fmt.Sprintf("\nName, %s!", StudentObj.Name)
+				StudentInfo += fmt.Sprintf("\nDepartment, %s!", StudentObj.Department)
+				StudentInfo += fmt.Sprintf("\nAge, %d!", StudentObj.Age)
+				StudentInfo += fmt.Sprintf("\nEnrollment No , %d!", StudentObj.Enrollment)
 			}
-
-			if  Department == ""{
-				Department = "CS"
-			}
-
-			if age < 20 {
-				greeting := fmt.Sprintf("Age is less than, %d!", age)
-				return operations.NewPutGreetingOK().WithPayload(greeting)
-			} else {
-				greeting := fmt.Sprintf("This is Put Call" )
-				greeting += fmt.Sprintf("\nName, %s!", name)
-				greeting += fmt.Sprintf("\nDepartment, %s!", Department)
-				greeting += fmt.Sprintf("\nAge, %d!", age)
-				greeting += fmt.Sprintf("\nEnrollment No , %d!", EnrollmentNo)
-				return operations.NewPutGreetingOK().WithPayload(greeting)
-			}
-
-		})
-
-	api.DeleteGreetingHandler= operations.DeleteGreetingHandlerFunc(
-		func(params operations.DeleteGreetingParams)middleware.Responder{
-			id := swag.StringValue(params.ID)
-			greeting := fmt.Sprintf("This is Delete Call " )
-			greeting += fmt.Sprintf("ID to delete, %s ",id)
-			return operations.NewDeleteGreetingOK().WithPayload(greeting)
+			return student.NewGetStudentListOK().WithPayload(StudentInfo)
 		})
 	// serve API
 	if err := server.Serve(); err != nil {

@@ -18,326 +18,346 @@ var (
 
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "swagger": "2.0",
   "info": {
-    "title": "Greeting Server",
+    "title": "Student Server",
     "version": "1.0.0"
   },
   "paths": {
-    "/hello": {
+    "/student": {
       "get": {
         "produces": [
           "text/plain"
         ],
-        "operationId": "getGreeting",
+        "tags": [
+          "student"
+        ],
+        "operationId": "GetStudent",
         "parameters": [
-          {
-            "type": "string",
-            "description": "defaults to World if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
           {
             "type": "integer",
             "format": "int64",
-            "description": "Should be greater than",
-            "name": "enrollment",
-            "in": "query"
+            "description": "ID to get student information",
+            "name": "id",
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Information",
             "schema": {
-              "description": "contains the actual greeting as plain text",
-              "type": "string"
-            }
-          }
-        }
-      },
-      "put": {
-        "produces": [
-          "text/plain"
-        ],
-        "operationId": "PutGreeting",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "defaults to World if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "Should be greater than",
-            "name": "enrollment",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns a greeting",
-            "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
         }
       },
       "post": {
-        "produces": [
-          "text/plain"
+        "tags": [
+          "student"
         ],
-        "operationId": "PostGreeting",
+        "operationId": "PostStudent",
         "parameters": [
           {
-            "type": "string",
-            "description": "defaults to World if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "Should be greater than",
-            "name": "enrollment",
-            "in": "query"
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/student"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "contains a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/studentlist": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "tags": [
+          "student"
+        ],
+        "operationId": "GetStudentList",
+        "responses": {
+          "200": {
+            "description": "returns list of Student",
+            "schema": {
+              "description": "contains list of Student",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "put": {
+        "tags": [
+          "student"
+        ],
+        "operationId": "PutStudent",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/student"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a Student Informations",
+            "schema": {
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
         }
       },
       "delete": {
-        "produces": [
-          "text/plain"
+        "tags": [
+          "student"
         ],
-        "operationId": "DeleteGreeting",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Add Id",
-            "name": "Id",
-            "in": "query"
-          }
-        ],
+        "operationId": "DeleteStudent",
         "responses": {
-          "200": {
-            "description": "returns a greeting",
+          "204": {
+            "description": "Delete a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "Delete a Student Informations",
               "type": "string"
             }
           }
+        }
+      },
+      "parameters": [
+        {
+          "type": "integer",
+          "format": "int64",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "student": {
+      "type": "object",
+      "required": [
+        "name",
+        "department",
+        "enrollment",
+        "age"
+      ],
+      "properties": {
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "department": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enrollment": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }
   }
 }`))
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "swagger": "2.0",
   "info": {
-    "title": "Greeting Server",
+    "title": "Student Server",
     "version": "1.0.0"
   },
   "paths": {
-    "/hello": {
+    "/student": {
       "get": {
         "produces": [
           "text/plain"
         ],
-        "operationId": "getGreeting",
+        "tags": [
+          "student"
+        ],
+        "operationId": "GetStudent",
         "parameters": [
-          {
-            "type": "string",
-            "description": "defaults to World if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
           {
             "type": "integer",
             "format": "int64",
-            "description": "Should be greater than",
-            "name": "enrollment",
-            "in": "query"
+            "description": "ID to get student information",
+            "name": "id",
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "returns a Student Information",
             "schema": {
-              "description": "contains the actual greeting as plain text",
-              "type": "string"
-            }
-          }
-        }
-      },
-      "put": {
-        "produces": [
-          "text/plain"
-        ],
-        "operationId": "PutGreeting",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "defaults to World if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "Should be greater than",
-            "name": "enrollment",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "returns a greeting",
-            "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
         }
       },
       "post": {
-        "produces": [
-          "text/plain"
+        "tags": [
+          "student"
         ],
-        "operationId": "PostGreeting",
+        "operationId": "PostStudent",
         "parameters": [
           {
-            "type": "string",
-            "description": "defaults to World if not given",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "defaults to CS if not given",
-            "name": "Department",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "Should be greater than 20",
-            "name": "age",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "Should be greater than",
-            "name": "enrollment",
-            "in": "query"
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/student"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "returns a greeting",
+            "description": "contains a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "contains a Student Informations",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/studentlist": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "tags": [
+          "student"
+        ],
+        "operationId": "GetStudentList",
+        "responses": {
+          "200": {
+            "description": "returns list of Student",
+            "schema": {
+              "description": "contains list of Student",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "put": {
+        "tags": [
+          "student"
+        ],
+        "operationId": "PutStudent",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/student"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a Student Informations",
+            "schema": {
+              "description": "contains a Student Informations",
               "type": "string"
             }
           }
         }
       },
       "delete": {
-        "produces": [
-          "text/plain"
+        "tags": [
+          "student"
         ],
-        "operationId": "DeleteGreeting",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Add Id",
-            "name": "Id",
-            "in": "query"
-          }
-        ],
+        "operationId": "DeleteStudent",
         "responses": {
-          "200": {
-            "description": "returns a greeting",
+          "204": {
+            "description": "Delete a Student Informations",
             "schema": {
-              "description": "contains the actual greeting as plain text",
+              "description": "Delete a Student Informations",
               "type": "string"
             }
           }
+        }
+      },
+      "parameters": [
+        {
+          "type": "integer",
+          "format": "int64",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "student": {
+      "type": "object",
+      "required": [
+        "name",
+        "department",
+        "enrollment",
+        "age"
+      ],
+      "properties": {
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "department": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enrollment": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

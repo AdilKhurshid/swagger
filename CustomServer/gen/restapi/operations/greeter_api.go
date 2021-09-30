@@ -18,6 +18,8 @@ import (
 	spec "github.com/go-openapi/spec"
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+
+	"CustomServer/gen/restapi/operations/student"
 )
 
 // NewGreeterAPI creates a new Greeter instance
@@ -36,18 +38,22 @@ func NewGreeterAPI(spec *loads.Document) *GreeterAPI {
 		APIKeyAuthenticator: security.APIKeyAuth,
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
+		JSONProducer:        runtime.JSONProducer(),
 		TxtProducer:         runtime.TextProducer(),
-		DeleteGreetingHandler: DeleteGreetingHandlerFunc(func(params DeleteGreetingParams) middleware.Responder {
-			return middleware.NotImplemented("operation DeleteGreeting has not yet been implemented")
+		StudentDeleteStudentHandler: student.DeleteStudentHandlerFunc(func(params student.DeleteStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation StudentDeleteStudent has not yet been implemented")
 		}),
-		PostGreetingHandler: PostGreetingHandlerFunc(func(params PostGreetingParams) middleware.Responder {
-			return middleware.NotImplemented("operation PostGreeting has not yet been implemented")
+		StudentGetStudentHandler: student.GetStudentHandlerFunc(func(params student.GetStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation StudentGetStudent has not yet been implemented")
 		}),
-		PutGreetingHandler: PutGreetingHandlerFunc(func(params PutGreetingParams) middleware.Responder {
-			return middleware.NotImplemented("operation PutGreeting has not yet been implemented")
+		StudentGetStudentListHandler: student.GetStudentListHandlerFunc(func(params student.GetStudentListParams) middleware.Responder {
+			return middleware.NotImplemented("operation StudentGetStudentList has not yet been implemented")
 		}),
-		GetGreetingHandler: GetGreetingHandlerFunc(func(params GetGreetingParams) middleware.Responder {
-			return middleware.NotImplemented("operation GetGreeting has not yet been implemented")
+		StudentPostStudentHandler: student.PostStudentHandlerFunc(func(params student.PostStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation StudentPostStudent has not yet been implemented")
+		}),
+		StudentPutStudentHandler: student.PutStudentHandlerFunc(func(params student.PutStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation StudentPutStudent has not yet been implemented")
 		}),
 	}
 }
@@ -77,17 +83,21 @@ type GreeterAPI struct {
 	// JSONConsumer registers a consumer for a "application/json" mime type
 	JSONConsumer runtime.Consumer
 
+	// JSONProducer registers a producer for a "application/json" mime type
+	JSONProducer runtime.Producer
 	// TxtProducer registers a producer for a "text/plain" mime type
 	TxtProducer runtime.Producer
 
-	// DeleteGreetingHandler sets the operation handler for the delete greeting operation
-	DeleteGreetingHandler DeleteGreetingHandler
-	// PostGreetingHandler sets the operation handler for the post greeting operation
-	PostGreetingHandler PostGreetingHandler
-	// PutGreetingHandler sets the operation handler for the put greeting operation
-	PutGreetingHandler PutGreetingHandler
-	// GetGreetingHandler sets the operation handler for the get greeting operation
-	GetGreetingHandler GetGreetingHandler
+	// StudentDeleteStudentHandler sets the operation handler for the delete student operation
+	StudentDeleteStudentHandler student.DeleteStudentHandler
+	// StudentGetStudentHandler sets the operation handler for the get student operation
+	StudentGetStudentHandler student.GetStudentHandler
+	// StudentGetStudentListHandler sets the operation handler for the get student list operation
+	StudentGetStudentListHandler student.GetStudentListHandler
+	// StudentPostStudentHandler sets the operation handler for the post student operation
+	StudentPostStudentHandler student.PostStudentHandler
+	// StudentPutStudentHandler sets the operation handler for the put student operation
+	StudentPutStudentHandler student.PutStudentHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -147,24 +157,32 @@ func (o *GreeterAPI) Validate() error {
 		unregistered = append(unregistered, "JSONConsumer")
 	}
 
+	if o.JSONProducer == nil {
+		unregistered = append(unregistered, "JSONProducer")
+	}
+
 	if o.TxtProducer == nil {
 		unregistered = append(unregistered, "TxtProducer")
 	}
 
-	if o.DeleteGreetingHandler == nil {
-		unregistered = append(unregistered, "DeleteGreetingHandler")
+	if o.StudentDeleteStudentHandler == nil {
+		unregistered = append(unregistered, "student.DeleteStudentHandler")
 	}
 
-	if o.PostGreetingHandler == nil {
-		unregistered = append(unregistered, "PostGreetingHandler")
+	if o.StudentGetStudentHandler == nil {
+		unregistered = append(unregistered, "student.GetStudentHandler")
 	}
 
-	if o.PutGreetingHandler == nil {
-		unregistered = append(unregistered, "PutGreetingHandler")
+	if o.StudentGetStudentListHandler == nil {
+		unregistered = append(unregistered, "student.GetStudentListHandler")
 	}
 
-	if o.GetGreetingHandler == nil {
-		unregistered = append(unregistered, "GetGreetingHandler")
+	if o.StudentPostStudentHandler == nil {
+		unregistered = append(unregistered, "student.PostStudentHandler")
+	}
+
+	if o.StudentPutStudentHandler == nil {
+		unregistered = append(unregistered, "student.PutStudentHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -220,6 +238,9 @@ func (o *GreeterAPI) ProducersFor(mediaTypes []string) map[string]runtime.Produc
 	for _, mt := range mediaTypes {
 		switch mt {
 
+		case "application/json":
+			result["application/json"] = o.JSONProducer
+
 		case "text/plain":
 			result["text/plain"] = o.TxtProducer
 
@@ -268,22 +289,27 @@ func (o *GreeterAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/hello"] = NewDeleteGreeting(o.context, o.DeleteGreetingHandler)
-
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
-	}
-	o.handlers["POST"]["/hello"] = NewPostGreeting(o.context, o.PostGreetingHandler)
-
-	if o.handlers["PUT"] == nil {
-		o.handlers["PUT"] = make(map[string]http.Handler)
-	}
-	o.handlers["PUT"]["/hello"] = NewPutGreeting(o.context, o.PutGreetingHandler)
+	o.handlers["DELETE"]["/{id}"] = student.NewDeleteStudent(o.context, o.StudentDeleteStudentHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/hello"] = NewGetGreeting(o.context, o.GetGreetingHandler)
+	o.handlers["GET"]["/student"] = student.NewGetStudent(o.context, o.StudentGetStudentHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/studentlist"] = student.NewGetStudentList(o.context, o.StudentGetStudentListHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/student"] = student.NewPostStudent(o.context, o.StudentPostStudentHandler)
+
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/{id}"] = student.NewPutStudent(o.context, o.StudentPutStudentHandler)
 
 }
 

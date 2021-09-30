@@ -1,123 +1,128 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: Greeting Server
-paths:
-  /hello:
-    get:
-      produces:
-        - text/plain
-      parameters:
-        - name: name
-          required: false
-          type: string
-          in: query
-          description: defaults to World if not given
-        - name: Department
-          required: false
-          type: string
-          in: query
-          description: defaults to CS if not given
-        - name: age
-          type: integer
-          format:  int32
-          in: query
-          required: false
-          description: Should be greater than 20
-        - name: enrollment
-          type: integer
-          format: int64
-          in: query
-          required: false
-          description: Should be greater than
-      operationId: getGreeting
-      responses:
-        200:
-          description: returns a greeting
-          schema:
-            type: string
-            description: contains the actual greeting as plain text
-    post:
-      produces:
-        - text/plain
-      parameters:
-        - name: name
-          required: false
-          type: string
-          in: query
-          description: defaults to World if not given
-        - name: Department
-          required: false
-          type: string
-          in: query
-          description: defaults to CS if not given
-        - name: age
-          type: integer
-          format:  int32
-          in: query
-          required: false
-          description: Should be greater than 20
-        - name: enrollment
-          type: integer
-          format: int64
-          in: query
-          required: false
-          description: Should be greater than
-      operationId: PostGreeting
-      responses:
-        200:
-          description: returns a greeting
-          schema:
-            type: string
-            description: contains the actual greeting as plain text
+  title: Student Server
 
-    put:
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /student:
+    get:
+      tags:
+        - student
       produces:
         - text/plain
       parameters:
-        - name: name
-          required: false
-          type: string
-          in: query
-          description: defaults to World if not given
-        - name: Department
-          required: false
-          type: string
-          in: query
-          description: defaults to CS if not given
-        - name: age
-          type: integer
-          format:  int32
-          in: query
-          required: false
-          description: Should be greater than 20
-        - name: enrollment
+        - name: id
+          required: true
           type: integer
           format: int64
           in: query
-          required: false
-          description: Should be greater than
-      operationId: PutGreeting
+          description: ID to get student information
+      operationId: GetStudent
       responses:
         200:
-          description: returns a greeting
+          description: returns a Student Information
           schema:
             type: string
-            description: contains the actual greeting as plain text
+            description: contains a Student Informations
+    post:
+      tags:
+        - student
+      operationId: PostStudent
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/student"
+      responses:
+        200:
+          description: contains a Student Informations
+          schema:
+            type: string
+            description: contains a Student Informations
+
+  /{id}:
+    parameters:
+      - type: integer
+        format: int64
+        name: id
+        in: path
+        required: true
+    put:
+      tags:
+        - student
+      operationId: PutStudent
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/student'
+      responses:
+        200:
+          description: returns a Student Informations
+          schema:
+            type: string
+            description: contains a Student Informations
 
     delete:
-      produces:
-        - text/plain
-      parameters:
-        - name: Id
-          required: false
-          type: string
-          in: query
-          description: Add Id
-      operationId: DeleteGreeting
+      tags:
+        - student
+      operationId: DeleteStudent
       responses:
-        200:
-          description: returns a greeting
+        204:
+          description: Delete a Student Informations
           schema:
             type: string
-            description: contains the actual greeting as plain text
+            description: Delete a Student Informations
+
+  /studentlist:
+    get:
+      tags:
+        - student
+      produces:
+        - text/plain
+      operationId: GetStudentList
+      responses:
+        200:
+          description: returns list of Student
+          schema:
+            type: string
+            description: contains list of Student
+
+
+definitions:
+  student:
+    type: object
+    required:
+      - name
+      - department
+      - enrollment
+      - age
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      enrollment:
+        type: integer
+        format: int64
+      name:
+        type: string
+        minLength: 1
+      age:
+        type: integer
+        format: int32
+      department:
+        type: string
+        minLength: 1
+
+
+
+
+
+
+
